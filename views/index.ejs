@@ -1,0 +1,30 @@
+<%- include('partials/header') %>
+
+<% let todos = locals.todos || []; %>
+
+<h2>Deine ToDo-Liste:</h2>
+<% if (todos && todos.length > 0) { %>
+<ul>
+  <% todos.forEach((todo, index) => { %>
+    <li>
+      <%= todo %>
+      <form action="/delete" method="POST" style="display: inline;">
+        <input type="hidden" name="index" value="<%= index %>">
+        <button type="submit">Löschen</button>
+      </form>
+    </li>
+  <% }) %>
+</ul>
+<% } else { %>
+<p>Keine ToDos vorhanden.</p>
+<% } %>
+
+<h3>Neues ToDo hinzufügen:</h3>
+<form action="/add" method="POST">
+  <input type="text" name="todo" placeholder="Neues ToDo eingeben" required>
+  <button type="submit">Hinzufügen</button>
+</form>
+
+<%- include('partials/footer') %>
+
+<%- include('partials/footer') %>
