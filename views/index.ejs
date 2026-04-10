@@ -4,27 +4,59 @@
 
 <h2>Deine ToDo-Liste:</h2>
 <% if (todos && todos.length > 0) { %>
-<ul>
-  <% todos.forEach((todo, index) => { %>
-    <li>
-      <%= todo %>
-      <form action="/delete" method="POST" style="display: inline;">
-        <input type="hidden" name="index" value="<%= index %>">
-        <button type="submit">Löschen</button>
-      </form>
-    </li>
-  <% }) %>
-</ul>
+<table border="1" style="width: 100%; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th>Titel</th>
+      <th>Beschreibung</th>
+      <th>Fälligkeitsdatum</th>
+      <th>Priorität</th>
+      <th>Status</th>
+      <th>Aktionen</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% todos.forEach((todo) => { %>
+      <tr style="background-color: <%= todo.completed ? '#e8f5e9' : '#fff' %>;">
+        <td><strong><%= todo.title %></strong></td>
+        <td><%= todo.description || '-' %></td>
+        <td><%= todo.dueDate || '-' %></td>
+        <td>
+          <span style="padding: 5px; border-radius: 3px; 
+            background-color: <%= todo.priority === 'hoch' ? '#ffebee' : todo.priority === 'mittel' ? '#fff3e0' : '#e8f5e9' %>;">
+            <%= todo.priority || 'normal' %>
+          </span>
+        </td>
+        <td><%= todo.completed ? '✓ Erledigt' : 'Offen' %></td>
+        <td>
+          <form action="/toggle" method="POST" style="display: inline;">
+            <input type="hidden" name="id" value="<%= todo.id %>">
+            <button type="submit"><%= todo.completed ? 'Reaktivieren' : 'Erledigt' %></button>
+          </form>
+          <form action="/delete" method="POST" style="display: inline;">
+            <input type="hidden" name="id" value="<%= todo.id %>">
+            <button type="submit" style="background-color: #ff6b6b; color: white;">Löschen</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
 <% } else { %>
 <p>Keine ToDos vorhanden.</p>
 <% } %>
 
 <h3>Neues ToDo hinzufügen:</h3>
-<form action="/add" method="POST">
-  <input type="text" name="todo" placeholder="Neues ToDo eingeben" required>
+<form action="/add" method="POST" style="display: flex; flex-direction: column; gap: 10px; max-width: 500px;">
+  <input type="text" name="title" placeholder="Titel" required>
+  <textarea name="description" placeholder="Beschreibung (optional)" rows="3"></textarea>
+  <input type="date" name="dueDate">
+  <select name="priority">
+    <option value="niedrig">Niedrig</option>
+    <option value="mittel" selected>Mittel</option>
+    <option value="hoch">Hoch</option>
+  </select>
   <button type="submit">Hinzufügen</button>
 </form>
-
-<%- include('partials/footer') %>
 
 <%- include('partials/footer') %>

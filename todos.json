@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": 1775843437865,
+    "title": "erstes ToDo",
+    "description": "der erste test ob daten gehalten werden",
+    "dueDate": "2026-04-10",
+    "priority": "mittel",
+    "completed": false
+  }
+]

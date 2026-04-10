@@ -42,7 +42,14 @@ app.get("/", (req, res) => {
 
 // Neues ToDo hinzufügen
 app.post("/add", (req, res) => {
-  const newTodo = req.body.todo;
+  const newTodo = {
+    id: Date.now(),
+    title: req.body.title,
+    description: req.body.description,
+    dueDate: req.body.dueDate,
+    priority: req.body.priority,
+    completed: false
+  };
   todos.push(newTodo);
   saveTodos(todos);
   res.redirect("/");
@@ -50,9 +57,20 @@ app.post("/add", (req, res) => {
 
 // ToDo löschen
 app.post("/delete", (req, res) => {
-  const index = req.body.index;
-  todos.splice(index, 1);
+  const id = req.body.id;
+  todos = todos.filter(todo => todo.id != id);
   saveTodos(todos);
+  res.redirect("/");
+});
+
+// ToDo als erledigt markieren
+app.post("/toggle", (req, res) => {
+  const id = req.body.id;
+  const todo = todos.find(todo => todo.id == id);
+  if (todo) {
+    todo.completed = !todo.completed;
+    saveTodos(todos);
+  }
   res.redirect("/");
 });
 
