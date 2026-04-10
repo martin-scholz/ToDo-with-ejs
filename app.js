@@ -1,11 +1,37 @@
 const express = require("express");
+const fs = require("fs");
+const path = require("path");
 const app = express();
 
 app.set("view engine", "ejs");
 app.set('view cache', false); // Deaktiviert View-Caching für Entwicklung
 app.use(express.urlencoded({ extended: true }));
 
-let todos = [];
+const todosFile = path.join(__dirname, "todos.json");
+
+// Todos aus JSON-Datei laden
+function loadTodos() {
+  try {
+    if (fs.existsSync(todosFile)) {
+      const data = fs.readFileSync(todosFile, "utf8");
+      return JSON.parse(data);
+    }
+  } catch (err) {
+    console.error("Fehler beim Laden der Todos:", err);
+  }
+  return [];
+}
+
+// Todos in JSON-Datei speichern
+function saveTodos(todos) {
+  try {
+    fs.writeFileSync(todosFile, JSON.stringify(todos, null, 2), "utf8");
+  } catch (err) {
+    console.error("Fehler beim Speichern der Todos:", err);
+  }
+}
+
+let todos = loadTodos();
 
 // Startseite
 app.get("/", (req, res) => {
@@ -18,6 +44,7 @@ app.get("/", (req, res) => {
 app.post("/add", (req, res) => {
   const newTodo = req.body.todo;
   todos.push(newTodo);
+  saveTodos(todos);
   res.redirect("/");
 });
 
@@ -25,10 +52,11 @@ app.post("/add", (req, res) => {
 app.post("/delete", (req, res) => {
   const index = req.body.index;
   todos.splice(index, 1);
+  saveTodos(todos);
   res.redirect("/");
 });
 
 app.listen(3000, () => {
   console.log("Server läuft auf http://localhost:3000");
-  console.log("Debug: Todos array initialized as", todos);
+  console.log("Debug: Todos geladen:", todos.length, "Todos");
 });
