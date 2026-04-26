@@ -4,7 +4,7 @@
 
 <h2>Deine ToDo-Liste:</h2>
 <% if (todos && todos.length > 0) { %>
-<table border="1" style="width: 100%; border-collapse: collapse;">
+<table class="todo-table">
   <thead>
     <tr>
       <th>Titel</th>
@@ -17,13 +17,12 @@
   </thead>
   <tbody>
     <% todos.forEach((todo) => { %>
-      <tr style="background-color: <%= todo.completed ? '#e8f5e9' : '#fff' %>;">
+      <tr class="<%= todo.completed ? 'todo-row-completed' : '' %>">
         <td><strong><%= todo.title %></strong></td>
         <td><%= todo.description || '-' %></td>
         <td><%= todo.dueDate || '-' %></td>
         <td>
-          <span style="padding: 5px; border-radius: 3px; 
-            background-color: <%= todo.priority === 'hoch' ? '#ffebee' : todo.priority === 'mittel' ? '#fff3e0' : '#e8f5e9' %>;">
+          <span class="priority-badge <%= todo.priority === 'hoch' ? 'priority-high' : todo.priority === 'mittel' ? 'priority-medium' : 'priority-low' %>">
             <%= todo.priority || 'normal' %>
           </span>
         </td>
@@ -35,7 +34,7 @@
           </form>
           <form action="/delete" method="POST" style="display: inline;">
             <input type="hidden" name="id" value="<%= todo.id %>">
-            <button type="submit" style="background-color: #ff6b6b; color: white;">Löschen</button>
+            <button type="submit" class="delete-btn">Löschen</button>
           </form>
         </td>
       </tr>
@@ -47,7 +46,7 @@
 <% } %>
 
 <h3>Neues ToDo hinzufügen:</h3>
-<form action="/add" method="POST" style="display: flex; flex-direction: column; gap: 10px; max-width: 500px;">
+<form action="/add" method="POST" class="add-form">
   <input type="text" name="title" placeholder="Titel" required>
   <textarea name="description" placeholder="Beschreibung (optional)" rows="3"></textarea>
   <input type="date" name="dueDate">

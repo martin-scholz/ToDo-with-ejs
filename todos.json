@@ -6,5 +6,13 @@
     "dueDate": "2026-04-10",
     "priority": "mittel",
     "completed": false
+  },
+  {
+    "id": 1775844101306,
+    "title": "zweites ToDo",
+    "description": "prio wird hoch gesetzt um zu sehen ob sich zellenfarbe ändert",
+    "dueDate": "2026-04-23",
+    "priority": "hoch",
+    "completed": false
   }
 ]

@@ -2,6 +2,58 @@
 <html>
 <head>
   <title>ToDo App</title>
+  <style>
+    .todo-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #ddd;
+    }
+    .todo-table th, .todo-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    .todo-row-completed {
+      background-color: #e8f5e9;
+    }
+    .priority-badge {
+      padding: 5px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+    .priority-high {
+      background-color: #ffebee;
+    }
+    .priority-medium {
+      background-color: #fff3e0;
+    }
+    .priority-low {
+      background-color: #e8f5e9;
+    }
+    .delete-btn {
+      background-color: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .add-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 500px;
+    }
+    .add-form input, .add-form textarea, .add-form select, .add-form button {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .add-form button {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <h1>📝 Meine ToDo Liste</h1>
